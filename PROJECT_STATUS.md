@@ -13,19 +13,21 @@
 - A verified, read-only test against `ftWbioEngineAdapter.dll` reached function `0x18012a350`; later four-model tests opened the same SHA-256-verified binary and returned the same function summary.
 - A Qwen Code model-provider context-window mismatch (32,768 vs 65,536) was identified from the local settings.
 - The first set of public guides and troubleshooting records was prepared from observed results. Documentation is **not** an assertion that every combination works.
+- Follow-up REA tests on 3 November 2026 are documented in [`benchmarks/rea-agent-followup-2026-11-03.md`](benchmarks/rea-agent-followup-2026-11-03.md): focused indirect-call failures, four fresh Flint/Qwen positive-versus-negative prompt runs, verified hashes, cumulative token counts and debug-log observations. No changes to the verified REA/MCP patch were required.
 
 ## REMAINING / UNKNOWN
 
 - Determine whether upstream PR #3023 is merged, released, or included in any particular Qwen Code release before recommending removal of the local patch.
-- Perform a controlled multi-step REA benchmark comparing coding-agent reliability, evidence tracking, call-argument accuracy and total time.
+- Complete a *successful*, controlled multi-step REA benchmark comparing coding-agent reliability, evidence tracking, call-argument accuracy and total time. Earlier focused trials were performed and documented, but neither produced a correct, completed explanation of the target indirect call.
 - Independently verify installation instructions on a clean machine before describing any end-to-end setup as universally reproducible.
-- Distinguish model/tool misuse from SDK/transport failures using actual debug logs.
+- Continue distinguishing model/tool misuse from SDK/transport failures using actual debug logs; the 3 November logs separate tool-schema refusals, a provider-selection error and context-compression failure from successful REA operations.
+- Determine why one English Qwen prompt produced a Chinese final response and follow-up suggestion; no cause established, and no justification for changing the existing language preference file.
 - Add NVIDIA-specific guidance only after someone verifies it on NVIDIA hardware.
 
 ## NEXT ACTION
 
 1. Preserve confirmed details and links to primary sources in this repository.
-2. Record new benchmarks with model build, quantisation, context size, prompts and tool traces.
+2. Preserve the 3 November follow-up results and record future benchmarks with model build, quantisation, context size, prompts and tool traces; control host/tool state and avoid treating cumulative token totals as context usage.
 3. Verify upstream MCP SDK resolution and publish a version-qualified workaround or migration note.
 
 ## Operating rules
