@@ -12,6 +12,7 @@ Initial work is based on **Nobara Linux + AMD Strix Halo (Ryzen AI Max+ 395, 128
 | --- | --- |
 | Current confirmed work and outstanding questions | [PROJECT_STATUS.md](PROJECT_STATUS.md) |
 | LM Studio + Qwen Code model configuration | [LM Studio/Qwen Code guide](guides/lm-studio-qwen-code.md) |
+| Krita 6.0.4 AppImage + MCP (verified 10/10 self-test) | [Krita MCP tested installation](guides/krita-mcp-appimage-nobara.md) |
 | REA/Ghidra read-only analysis and evidence IDs | [REA/Ghidra tested workflow](guides/rea-ghidra-tested-workflow.md) |
 | Confirmed MCP progress-token disconnect investigation | [Progress-notification race](fixes/mcp-progress-notification-race.md) |
 | Distinguish SDK failures from model mistakes | [Troubleshooting decision guide](troubleshooting/agent-vs-mcp-failures.md) |
