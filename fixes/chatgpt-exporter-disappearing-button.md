@@ -37,6 +37,10 @@ The targeted local.5 adjustment was designed to choose a **visible** sidebar ins
 
 The local exporter is derived from **[pionxzh's ChatGPT Exporter](https://github.com/pionxzh/chatgpt-exporter)** (MIT-licensed). The user reported that the upstream maintainer accepted a separately contributed **HTML-link conversion fix**. That improvement is distinct from the local.5 disappearing-button workaround; **do not assume the latter is upstream**.
 
+## Archived working source
+
+- [ChatGPT Exporter (Continuity All Formats — Shared Images) **2.38.0-local.5**](chatgpt-exporter/ChatGPT-Exporter-Continuity-Shared-Images-local.5.user.js) — the exact tested userscript, retained with upstream author attribution and MIT licence. Git blob SHA-1: `468532da6346191a4f6e4588c8bcc571cdce9254`; file SHA-256: `5efd7f2851884af3616ff601db975769d03bf78b3bc89b4e9d12f28881881d9b`. This script was confirmed to restore the Export button and export Markdown on 4 November 2026.
+
 ## Preservation
 
 Keep working Tampermonkey settings and export functionality intact. Do not replace the customised shared-image exporter with a stock version merely to fix its button position. Avoid committing personal conversation exports, private images, credentials or browser-profile data.
