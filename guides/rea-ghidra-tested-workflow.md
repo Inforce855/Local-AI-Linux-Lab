@@ -71,3 +71,18 @@ The four-model baseline test returned a summary view associated with the same or
 - An evidence ID fails integrity validation: stop and investigate its provenance rather than repeatedly opening and closing the target.
 
 See [the MCP investigation](../fixes/mcp-progress-notification-race.md) for a different, genuine connection problem.
+
+## Bionic + Gemma E4B REA/Ghidra test — 4 November 2026
+
+**Observed, user-reported (not independently re-run by this document):**
+
+- LM Studio Bionic connected immediately to the **existing** REA MCP server and reported **229 tools ready**. The pre-existing Qwen Code and Ghidra setups were preserved.
+- The agent initially stopped because the DLL was not found in its searched workspace. After the user supplied the existing absolute path, it progressed to tool schema discovery.
+- The `analyze_function` schema requires `procedure` as a **string**, not an `address` property. E4B initially assumed a symbol was mandatory and stopped. Correcting it to `{"procedure":"0x18012a350","detail":"summary"}` allowed the analysis to complete.
+- The agent reported **`FUN_18012a350`**, **49 basic blocks**, **7 callees**, **162 outgoing references**, **659 value-flow operations**, and **673 def-use tracking items**. The name, basic-block count and value-flow count agree with earlier recorded REA findings; the remaining counts were reported in this run and have not been independently compared against retained raw evidence.
+- User reported **8.1 GB GPU RAM in use** while using `google/gemma-4-e4b` (LM Studio Q6_K default, 7.21 GB). Treat this as a user-observed snapshot, **not** a controlled benchmark or peak-memory measurement.
+- The user's quoted final message described structural statistics, **not a verified semantic explanation** of the function's algorithm. Binary SHA-256 verification and full tool outputs from this Bionic attempt were not included in the quoted final response; do not claim independently verified hash from that alone.
+
+**Outcome:** Bionic agent connection, tool discovery, and one read-only function-summary request completed; no basis yet to claim a correct high-level reverse-engineering explanation, a controlled comparison against Qwen Code, or general REA reliability.
+
+**Next test if useful:** With the already-open verified target, use one bounded, read-only REA evidence view to explain a specific call or branch and compare the explanation with the existing prior analysis. Record tool results, model and elapsed time without reopening/re-analysing unnecessarily.
