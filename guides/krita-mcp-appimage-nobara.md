@@ -304,3 +304,27 @@ Upstream material to consult *before making code changes*:
 **REMAINING:** Verify where a warp lands on Tiger and whether it creates a visibly useful deformation. Consider a Bionic **Krita skill** grounded in the upstream usage/workflow examples and explicit opacity/index rules **before** patching working MCP source. Independently verify any future schema change. Never treat tool metadata or agent claims as a substitute for visible inspection.
 
 **NEXT ACTION:** Return to an unchanged disposable original image and perform one controlled, visually observable deformation using the upstream warp workflow, then compare against the original. Do not repeat completed builds, installations or green-rectangle tests.
+
+## 10. First user-confirmed visible Tiger warp (4 November 2026)
+
+**Observed:** Bionic with Gemma 4 E4B successfully called the existing `warp_layer` tool after an initial parameter error. The model mistakenly passed `center: [1050,680]` three times; the MCP rejected it with `params.center is not of a type(s) object`. The accepted format is **`center: {"x":1050,"y":680}`**, as used for `offset`. The agent initially attributed this to a server typing problem, but the evidence shows invalid caller arguments.
+
+**Observed preview:**
+```json
+{
+  "document": 0,
+  "layer": "Background",
+  "mode": "preview",
+  "center": {"x": 1050, "y": 680},
+  "offset": {"x": 0, "y": -30},
+  "radius": 160,
+  "max_size": 1024
+}
+```
+The bridge returned `changed_pixels=73038`, region `{"x":890,"y":490,"width":320,"height":320}`, `source_preserved=true`, `mutated=false`, `elapsed_ms=471`, and a PNG preview response. **Preview mode does not visibly update the Krita document**; the user saw no change on the canvas. Preview metadata is not proof of visually satisfactory deformation.
+
+**Observed applied test:** Repeated those geometry parameters with `mode: "apply"` and `name: "TIGER - VISIBLE WARP"`. The user supplied **before and after Krita images showing a visible change**, with Tiger's rounded back/torso distorted and background sofa stitching/upholstery also visibly shifted. The user's visual evidence establishes that a deformation was rendered in Krita; it does **not** establish that the warp is suitable as breathing. The background distortion is the outstanding defect for this visual task.
+
+**Next action:** Use the upstream `select_content`/selection-mask workflow to constrain the existing working warp to Tiger's torso; verify the sofa and plate remain stationary, then reduce warp strength for natural breathing. Do not repeat earlier infrastructure setup or rectangle tests. Keep the original unchanged, and inspect both the layer stack and actual before/after pixels.
+
+**REA follow-up idea:** Bionic's 57-tool Krita MCP discovery and subsequent operations suggest comparing its agent tool handling with the **already installed** REA server. This is an untested proposal, not a confirmed Bionic–REA connection. Prefer a small read-only REA/Ghidra task first, preserve Qwen Code MCP configuration and existing analysis files, and use the established REA docs/status before setting connection commands.
