@@ -17,6 +17,8 @@
 
 - **Krita MCP (4 November):** isolated Krita 6.0.4 AppImage with MCP Bridge 1.7.0 and native helper passed **10/10** local self-tests. Documented the build from checkout `443e22c`, Qt 6.11-to-6.8 compatibility workaround, temporary RUNPATH removal, isolated XDG installation, and local version-prefix correction in [`guides/krita-mcp-appimage-nobara.md`](guides/krita-mcp-appimage-nobara.md). Existing Krita 5.3.4.1 Flatpak was preserved. This does not establish general ABI safety.
 
+- **ChatGPT Exporter (Continuity local.5, 4 November):** the Tampermonkey Export button previously appeared briefly on reload and disappeared. A narrow UI anchor/visibility fallback restored the button after ChatGPT initialisation; the user confirmed it opened and successfully exported Markdown. A short flicker remains. Other formats were not re-tested. See [`fixes/chatgpt-exporter-disappearing-button.md`](fixes/chatgpt-exporter-disappearing-button.md).
+
 ## REMAINING / UNKNOWN
 
 - Krita MCP: test actual native warp/deformation on a disposable image, then connect Qwen Code through LM Studio; Qt ABI compatibility outside the passing self-test remains unverified. Preserve the uncommitted local `krita-mcp` version-check correction before updating that checkout.
