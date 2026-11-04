@@ -268,3 +268,39 @@ This verifies bridge communication, image round-tripping, native drawing/history
 - The temporary `/tmp/.mount_krita-*` path must never be committed into a persistent RPATH.
 - No original Tiger images, private material or third-party compiled libraries are published here.
 - The project source and local modification belong to the upstream checkout; this repository contains **documentation only**.
+
+## 9. Bionic + Gemma E4B and real image-editing tests (4 November 2026)
+
+**Source and status:** User-observed Krita UI and Bionic results, plus Qwen Code session exports; these are local observations, not upstream guarantees. The documented checkout is still `443e22c`. The existing native-helper build, isolated XDG plugin and uncommitted `native_commands.py` version-check fix remain intact.
+
+### Agent and bridge comparison
+
+- **Observed:** Qwen Code 0.26.6 connected to the existing `krita-mcp` bridge via LM Studio using `google/gemma-4-e4b` (Q6_K default, 7.21 GB; Q4_K_M also present). It correctly retrieved the `warp_layer` schema and, after Krita was restarted with the isolated XDG launcher, executed a **preview** in 178 ms. The tool response reported centre (994,722), offset (0,-2), radius 40, `changed_pixels=4114`, `mutated=false`, and `source_preserved=true`. **Not visually verified:** whether the preview made the intended visible Tiger movement. Treat it as an executed preview, not a successful animation.
+- **Observed:** A more autonomous Qwen Code magenta-Tiger task failed to create its layer: repeated `create_layer` calls were refused by Qwen Code's **deferred-tool schema-review gate**; Gemma retried malformed calls until retry-loop protection intervened. This is an agent/tool-call issue, not evidence of a Krita MCP failure.
+- **Observed:** LM Studio **Bionic** accepted the *existing* Krita MCP stdio server under Settings → Integrations → MCP → Add custom MCP, reporting **connected, 57 tools ready**. Working setup: command `/usr/bin/python3`; argument `/home/tim/Applications/Krita/krita-mcp/mcp_server.py`; working directory `/home/tim/Applications/Krita/krita-mcp`; `XDG_DATA_HOME=/home/tim/Applications/Krita/krita-mcp/native/build/xdg-data`; `XDG_CONFIG_HOME=/home/tim/Applications/Krita/krita-mcp/native/build/xdg-config`; request timeout 60 seconds. Krita AppImage must launch with those same XDG paths. The default KDE menu launch omitted them and left the MCP Bridge unavailable.
+- **Observed:** Bionic + Gemma E4B drew a large magenta rectangle on a new layer. It did **not** fulfil the visibility requirement: layer was almost transparent and below Background, although the agent's final message claimed full success. The user manually repaired order and opacity and saw the rectangle.
+- **Observed:** A second green rectangle attempt reported new layer `index=1`, `opacity=1`, `visible=true`, and one drawn pixel command; again behind Background and approximately 0.39% opaque, regardless of the agent's success claim.
+- **Observed:** After supplying exact parameter values `index: 0`, `opacity: 255`, `visible: true`, `blending_mode: "normal"`, a fresh Bionic test created `BIONIC - FIXED VALUES TEST` above `Background`, painted a visible green 400×200 rectangle near (760,440), and inspected resulting layer properties: test index 0, Background index 1, opacity 255, visible true. **User visually confirmed the green box over the original image.** Bionic reported 29 seconds. No need to repeat rectangle tests absent a regression.
+- **Inference:** Bionic currently completes this limited layered-drawing workflow with fewer agent/tool retries than the Qwen Code sessions tested, but neither agent's verbal claim alone establishes successful visual editing. The explicit 0/255 conventions resolved the two observed Bionic layer-configuration errors; the underlying Krita layer/draw methods worked when correctly invoked.
+
+### Krita MCP parameter conventions and upstream references
+
+At `443e22c`, `mcp_server.py` describes `create_layer` as **index 0 is the top**, with negative indices counting from the bottom, but does not explain the `opacity` property in the `create_layer` schema. Its `set_layer` tool description accepts **opacity 0–255 or 0–1**, which is ambiguous for agents. In the successful explicit test, **255** means fully opaque and **1** in the 0–255 scale is nearly transparent; do not assume bare `1` means 100% without documenting the conversion. Layer inspection returns opacity on the 0–255 scale. Larger nonnegative layer indices go below smaller indices. **Proposed but not implemented:** improve descriptions of `create_layer` and `set_layer` to make layer order and opacity scale unmistakable; do not change actual conversion or semantics without tests.
+
+Upstream material to consult *before making code changes*:
+
+- [Krita MCP usage](https://github.com/thuanlm215/krita-mcp/blob/443e22c/docs/usage.md) — layer tree, indices, operation behaviour and responses.
+- [Workflow documentation](https://github.com/thuanlm215/krita-mcp/blob/443e22c/docs/workflows.md) — warp, drawing, source preservation and undo.
+- [Deformation example](https://github.com/thuanlm215/krita-mcp/blob/443e22c/examples/example_deformation_workflow.py) — preview `warp_layer`, then apply, inspect images.
+- [Artist workflow](https://github.com/thuanlm215/krita-mcp/blob/443e22c/examples/example_artist_workflow.py) — preserve original, duplicate working layers, edit and inspect.
+- [MCP tool definitions](https://github.com/thuanlm215/krita-mcp/blob/443e22c/mcp_server.py) — live agent-facing schemas.
+  
+`warp_layer` **apply** already inserts a new edited copy and hides the source (see upstream workflows); do not duplicate the original pre-emptively unless required for a distinct purpose.
+
+### Continuation
+
+**COMPLETED:** 10/10 bridge self-tests, Qwen Code warp-preview operation, Bionic 57-tool connection, visibly verified layer creation and green drawing with explicit values.
+
+**REMAINING:** Verify where a warp lands on Tiger and whether it creates a visibly useful deformation. Consider a Bionic **Krita skill** grounded in the upstream usage/workflow examples and explicit opacity/index rules **before** patching working MCP source. Independently verify any future schema change. Never treat tool metadata or agent claims as a substitute for visible inspection.
+
+**NEXT ACTION:** Return to an unchanged disposable original image and perform one controlled, visually observable deformation using the upstream warp workflow, then compare against the original. Do not repeat completed builds, installations or green-rectangle tests.
