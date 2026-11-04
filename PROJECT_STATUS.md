@@ -19,9 +19,9 @@
 
 - **ChatGPT Exporter (Continuity local.5, 4 November):** the Tampermonkey Export button previously appeared briefly on reload and disappeared. A narrow UI anchor/visibility fallback restored the button after ChatGPT initialisation; the user confirmed it opened and successfully exported Markdown. A short flicker remains. Other formats were not re-tested. See [`fixes/chatgpt-exporter-disappearing-button.md`](fixes/chatgpt-exporter-disappearing-button.md).
 
-## REMAINING / UNKNOWN
+- **Bionic + Krita MCP (4 November):** existing isolated Krita 6 bridge connected to LM Studio Bionic with **57 tools ready**, without server rebuild. Bionic/Gemma E4B drew visible magenta and green rectangles on new layers. Early tests erroneously used `opacity=1` (nearly transparent) and `index=1` (below Background) and falsely claimed full success; one 29-second test using `opacity=255` and `index=0` was **visually verified** successful. Qwen Code E4B also completed a 178-ms nonmutating `warp_layer` preview, but its intended *visual effect* was not confirmed. See [expanded Krita guide](guides/krita-mcp-appimage-nobara.md#9-bionic--gemma-e4b-and-real-image-editing-tests-4-november-2026). Preserve working server and uncommitted local changes.\n\n## REMAINING / UNKNOWN
 
-- Krita MCP: test actual native warp/deformation on a disposable image, then connect Qwen Code through LM Studio; Qt ABI compatibility outside the passing self-test remains unverified. Preserve the uncommitted local `krita-mcp` version-check correction before updating that checkout.
+- Krita MCP: Qwen Code and Bionic connections are established; next visually verify a useful Tiger deformation (the 2-pixel preview was executed but the effect was not established). Consider a small Bionic Krita skill informed by upstream docs, and only then consider improving ambiguous opacity/index descriptions in MCP schemas. Qt ABI compatibility outside tested operations remains unverified. Preserve the uncommitted local `krita-mcp` version-check correction.
 - Determine whether upstream PR #3023 is merged, released, or included in any particular Qwen Code release before recommending removal of the local patch.
 - Complete a *successful*, controlled multi-step REA benchmark comparing coding-agent reliability, evidence tracking, call-argument accuracy and total time. Earlier focused trials were performed and documented, but neither produced a correct, completed explanation of the target indirect call.
 - Independently verify installation instructions on a clean machine before describing any end-to-end setup as universally reproducible.
@@ -31,7 +31,7 @@
 
 ## NEXT ACTION
 
-1. For Krita MCP, keep the verified 10/10 build configuration and local source fix intact; next verify a small warp on a disposable image before the Qwen Code connection.
+1. For Krita MCP, preserve the working bridge/source fix and both agent connections. Next visually compare a controlled, useful deformation on an expendable Tiger image; follow the upstream warp/artist examples and use explicit layer opacity/index conventions.
 2. Preserve confirmed details and links to primary sources in this repository.
 3. Preserve the 3 November follow-up results and record future benchmarks with model build, quantisation, context size, prompts and tool traces; control host/tool state and avoid treating cumulative token totals as context usage.
 4. Verify upstream MCP SDK resolution and publish a version-qualified workaround or migration note.
