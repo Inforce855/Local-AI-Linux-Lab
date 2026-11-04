@@ -86,3 +86,25 @@ See [the MCP investigation](../fixes/mcp-progress-notification-race.md) for a di
 **Outcome:** Bionic agent connection, tool discovery, and one read-only function-summary request completed; no basis yet to claim a correct high-level reverse-engineering explanation, a controlled comparison against Qwen Code, or general REA reliability.
 
 **Next test if useful:** With the already-open verified target, use one bounded, read-only REA evidence view to explain a specific call or branch and compare the explanation with the existing prior analysis. Record tool results, model and elapsed time without reopening/re-analysing unnecessarily.
+
+## MOC versus MOH PE section comparison — 4 November 2026
+
+**Observed:** User ran the already-installed Linux `objdump -h` and `stat` utilities directly against the two previously SHA-256-distinguished `ftWbioEngineAdapter.dll` files. REA's `inspect_binary_layout` was unavailable due to an unconfigured `REA_PWNTOOLS_PYTHON` provider; this is not evidence that REA/Ghidra analysis in general failed. No change to the REA installation was needed.
+
+| Section | MOC / FT9365 reported size (bytes) | MOH / FT5955 reported size (bytes) | Difference (bytes) |
+| --- | ---: | ---: | ---: |
+| `.text` executable | 437,977 | 1,758,005 | +1,320,028 |
+| `.rdata` read-only | 98,456 | 480,560 | +382,104 |
+| `.data` writable | 4,608 | 515,072 | +510,464 |
+| `.pdata` unwind | 23,868 | 65,844 | +41,976 |
+| `_RDATA` | 384 | 640 | +256 |
+| `.rsrc` resources | 1,472 | 1,456 | -16 |
+| `.reloc` | 2,240 | 2,664 | +424 |
+
+**File sizes:** MOC 591,920 bytes; MOH 2,847,280 bytes; difference **2,255,360 bytes**, approximately **4.81×**. Each `objdump -h` report contained the same seven section names. The differences in reported section sizes sum to 2,255,236 bytes, close to the on-disk size difference; section alignment and header details explain why section sizes need not sum to file length. `objdump -h`'s `Size` is the section size as exposed by BFD; to rigorously separate PE `VirtualSize` from `SizeOfRawData`, inspect section headers separately.
+
+**Interpretation, not yet established functionally:** Most extra content is executable `.text` (+1,320,028 bytes, ~58.5% of file difference), followed by `.data` (+510,464 bytes) and `.rdata` (+382,104 bytes). Embedded resources are essentially unchanged. This supports a materially larger compiled engine, but not a specific attribution to matching logic, model weights, or algorithms without further evidence. Preserve distinct MOC and MOH binaries; filenames alone do not indicate identical contents.
+
+**Source hashes, user verified:** MOC `ce2ba61ba30400d65a451aad63b3c373e1cb7f702d0f216a640042aed744efb8`; MOH `a4f037c260e8c86718675ddb6540467a9006ab26184858eb5b8726137185d57c`. Two user-local copies of each matched their respective digest.
+
+**Next question, only if relevant to matching-engine work:** Identify major regions/functions accounting for the extra `.text` and `.data`, using bounded read-only inspection. Do not interpret larger file size as automatically better or as proof of more biometric capability.
