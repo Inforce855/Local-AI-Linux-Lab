@@ -17,9 +17,9 @@
 
 **Target:** `WbioQueryEngineInterface` at `0x18012dce0`. REA/Ghidra reported **1,032 UTF-16 pseudocode code units** (not bytes or model tokens).
 
-### Original shared-prompt requirements — wording reconstructed, not verbatim
+### Original prompt — see the uploaded Bionic session transcripts
 
-The original exact seven-model prompt has **not** been recovered in the uploaded records. The following is a **reconstructed reproducibility prompt** from its documented requirements, **not a claimed exact historical transcript**. Do not use this reconstructed text as evidence that each candidate received precisely these words.
+The original seven-model prompt has now been recovered in the uploaded Bionic logs, notably [the Qwen3.8 session](Bionic-04e45585-81e3-4ace-b530-4852657b57e9.md). The following is a **reconstructed reproducibility prompt** from its documented requirements, **not a claimed exact historical transcript**. Do not use this reconstructed text as evidence that each candidate received precisely these words.
 
 ```text
 Use REA with Ghidra to perform a strictly read-only, standalone analysis
