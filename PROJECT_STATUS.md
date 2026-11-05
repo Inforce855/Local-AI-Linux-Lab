@@ -6,6 +6,10 @@
 
 ## 5 NOVEMBER 2026 — Bionic/REA long investigation and model comparison
 
+**Q8-selected repeat (5 November, later):** Three additional sanitised Bionic transcripts are committed and linked in the [shootout comparison](benchmarks/bionic-rea-llm-shootout-2026-11-05.md#3-qwen38-repeat-without-q4_k_m--5-november-2026), bringing the transcript index to 20. After local deletion of Q4_K_M, a repeated matching-engine investigation completed in approximately 37m 38s with two context handoffs and a safe no-argument `close_binary`. The saved model identifier does not conclusively establish quantisation for every request. Decompiler-derived scoring interpretations still require independent validation. No code or system configuration was changed by repository updates.
+
+
+
 **BENCHMARK REPRODUCIBILITY (5 November):** [Full local LLM shootout and prompts](benchmarks/bionic-rea-llm-shootout-2026-11-05.md) records seven model families/eight configurations and the redacted example DLL path. All 17 sanitised Bionic session transcripts have been uploaded and their Git blob hashes match the supplied sanitised archive. The short shootout's actual prompt is preserved verbatim in the uploaded session logs, with the home-directory name substituted; the earlier reconstructed version has been withdrawn from the benchmark report. The deep-investigation prompt is also preserved in the Bionic transcript. No source or system changes.
 
 
