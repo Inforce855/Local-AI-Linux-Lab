@@ -17,6 +17,7 @@ Initial work is based on **Nobara Linux + AMD Strix Halo (Ryzen AI Max+ 395, 128
 | ChatGPT Exporter button recovery (Continuity local.5) | [Locally verified workaround](fixes/chatgpt-exporter-disappearing-button.md) |
 | Confirmed MCP progress-token disconnect investigation | [Progress-notification race](fixes/mcp-progress-notification-race.md) |
 | Distinguish SDK failures from model mistakes | [Troubleshooting decision guide](troubleshooting/agent-vs-mcp-failures.md) |
+| Bionic/REA 5 November deep investigation and quantisation caveats | [44-minute evidence review](benchmarks/bionic-rea-moh-investigation-2026-11-05.md) |
 | Four-model basic REA comparison | [Benchmark results](benchmarks/rea-model-comparison.md) |
 | Reuse the bounded standalone test | [Benchmark prompt template](benchmarks/standalone-rea-baseline-prompt.md) |
 | Hardware/ROCm observations | [AMD Strix Halo notes](hardware/amd-strix-halo.md) |
