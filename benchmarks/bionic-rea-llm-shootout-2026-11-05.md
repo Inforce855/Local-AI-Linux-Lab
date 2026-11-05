@@ -65,7 +65,7 @@ Report concisely in at most 400 words.
 
 ## 2. Harder follow-up: matching-engine investigation
 
-The follow-up was a **different, significantly longer test**, originally initiated with Qwen3.8 Q8_0. The Bionic run used both Q8_0 and Q4_K_M model instances at different points; **do not attribute the complete run to Q8_0 alone**. The exact original user message below was recovered from the Bionic SQLite Markdown export, changing **only** `/home/tim/` to `/home/inforce/`.
+The follow-up was a **different, significantly longer test**, originally initiated with Qwen3.8 Q8_0. The Bionic run used both Q8_0 and Q4_K_M model instances at different points; **do not attribute the complete run to Q8_0 alone**. The exact original user message below was recovered from the Bionic SQLite Markdown export, changing **only** the original private home-directory prefix to `/home/inforce/`.
 
 ### Actual hard-task prompt (path redacted)
 
