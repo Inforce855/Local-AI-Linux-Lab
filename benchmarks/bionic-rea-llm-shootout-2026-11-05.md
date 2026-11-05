@@ -1,6 +1,6 @@
 # Local LLM shootout — Bionic + REA/Ghidra, 5 November 2026
 
-**Evidence status:** Local, single-run observations. **Seven model families / eight configurations**, including both Qwen3.8 Q8_0 and Q4_K_M. Not a controlled model ranking. This note preserves the tested target and safety restrictions; it does **not** distribute the proprietary DLL, biometric material or private Bionic logs.
+**Evidence status:** Local, single-run observations. **Seven model families / eight configurations**, including both Qwen3.8 Q8_0 and Q4_K_M. Not a controlled model ranking. This note preserves the tested target and safety restrictions; it does **not** distribute the proprietary DLL or biometric material; sanitised Bionic session logs are published and linked below.
 
 ## Test environment
 
@@ -29,16 +29,16 @@ The original, word-for-word prompt for the `WbioQueryEngineInterface` shootout i
 
 | Model/configuration | Elapsed | Tool calls / failures | Outcome and important caution |
 | --- | ---: | ---: | --- |
-| **Qwen3.8-27B Q8_0** (~29.98 GB GGUF) | **5m 46s** | **8 / 0** | Completed core analysis accurately; correct 6.0 interpretation; safe no-argument close. Best combined accuracy and instruction compliance in this small test |
-| **Qwen3.8-27B Q4_K_M** (~17.74 GB GGUF) | **6m 19s** | **0 failures** (full call count not independently reproduced here) | Completed and safely closed but investigated extra interface bytes and misread **6.0 as 6.2** |
-| **Qwen3-Coder-Next** | **1m 40s** | **12 / 5** | Completed core analysis; several invalid arguments; tried a dangerous snapshot path pointing at original DLL but the tool rejected it |
-| **Qwen3-Coder-30B** | **1m 20s** | **11 / 5** | Completed core analysis and ultimately closed safely; inaccurately reported zero failed calls |
-| **Gemma 4 E4B** | **1m 57s** | **5 / 4** | Failed to open target correctly; blamed tool/PE support instead of recognising argument errors |
-| **Gemma 4 26B A4B QAT** | **Interrupted** | Not verified | Repeated invalid calls, used shell despite prompt prohibition; separate shell-approval reviewer loop. No valid completed result |
-| **Gemma 4 31B QAT** | **7m 18s** | **8 / 1** | Substantive function analysis, but **overwrote the original DLL** by calling `close_binary` with `snapshot_path=<original path>, overwrite=true`; original vendor DLL was restored from backup and SHA-256-verified by owner |
-| **RecursiveSI Flint** (~39.8B total / ~2.5B active MoE) | **6m 27s** (observed before stop) | **19 / 1** | Retrieved function evidence but repeatedly revisited context; did not produce final report or close; searched both REA and unrelated Krita MCP tool inventories |
+| [**Qwen3.8-27B Q8_0**](Bionic-11e38c6c-9cce-4cca-bd95-5409ccff31e0.md) (~29.98 GB GGUF) | **5m 46s** | **8 / 0** | Completed core analysis accurately; correct 6.0 interpretation; safe no-argument close. Best combined accuracy and instruction compliance in this small test |
+| [**Qwen3.8-27B Q4_K_M**](Bionic-04e45585-81e3-4ace-b530-4852657b57e9.md) (~17.74 GB GGUF) | **6m 19s** | **0 failures** (full call count not independently reproduced here) | Completed and safely closed but investigated extra interface bytes and misread **6.0 as 6.2** |
+| [**Qwen3-Coder-Next**](Bionic-395a1bf7-0473-4007-8335-bcd7b7ad8775.md) | **1m 40s** | **12 / 5** | Completed core analysis; several invalid arguments; tried a dangerous snapshot path pointing at original DLL but the tool rejected it |
+| [**Qwen3-Coder-30B**](Bionic-dc2e932e-d1dd-4c5f-97d4-d6acbcb00494.md) | **1m 20s** | **11 / 5** | Completed core analysis and ultimately closed safely; inaccurately reported zero failed calls |
+| [**Gemma 4 E4B**](Bionic-a6bc553d-dffb-4789-98d4-d8207f8f30f2.md) | **1m 57s** | **5 / 4** | Failed to open target correctly; blamed tool/PE support instead of recognising argument errors |
+| [**Gemma 4 26B A4B QAT**](Bionic-ba2a6ea4-09d8-4bbc-a6cd-78bba56ef6ce.md) | **Interrupted** | Not verified | Repeated invalid calls, used shell despite prompt prohibition; separate shell-approval reviewer loop. No valid completed result |
+| [**Gemma 4 31B QAT**](Bionic-eb11e288-d81b-46f0-af54-d53f7a4081b8.md) | **7m 18s** | **8 / 1** | Substantive function analysis, but **overwrote the original DLL** by calling `close_binary` with `snapshot_path=<original path>, overwrite=true`; original vendor DLL was restored from backup and SHA-256-verified by owner |
+| [**RecursiveSI Flint**](Bionic-c6107f41-8d1c-4717-9196-78dec72c4cfd.md) (~39.8B total / ~2.5B active MoE) | **6m 27s** (observed before stop) | **19 / 1** | Retrieved function evidence but repeatedly revisited context; did not produce final report or close; searched both REA and unrelated Krita MCP tool inventories |
 
-**Interpretation:** Qwen3.8 Q8_0 gave the most reliable *bounded* result; speed alone did not predict tool correctness. Flint's tendency to explore may suit an open-ended investigation, but this is a hypothesis, not a verified capability conclusion. Gemma 31B's snapshot overwrite is a severe safety failure irrespective of analytical quality.
+**Additional Gemma 26B record:** [Shell Approval Reviewer sub-session](Bionic-f0e7ac0f-d068-462b-8bad-0aacc5d3c9ef.md) (interrupted; not an independent completed model run).\n\n**Interpretation:** Qwen3.8 Q8_0 gave the most reliable *bounded* result; speed alone did not predict tool correctness. Flint's tendency to explore may suit an open-ended investigation, but this is a hypothesis, not a verified capability conclusion. Gemma 31B's snapshot overwrite is a severe safety failure irrespective of analytical quality.
 
 ## 2. Harder follow-up: matching-engine investigation
 
@@ -93,7 +93,7 @@ Do not invent missing implementation details or claim that a native matcher has 
 
 Markdown code formatting has been flattened inside the plain-text block for readability; the original tool/export message included backticks around file names and API names. The instructions and their order are otherwise preserved.
 
-### Hard-task outcome
+**Full deep-run evidence:** [main session](Bionic-9ee18d1b-c35f-47d4-be33-0f05444719bf.md), [first compaction/continuation](Bionic-9863fa4e-a4b8-4b26-9eb4-f4edfb2e4531.md), [second compaction/continuation](Bionic-c7bf538e-232b-4f78-b3bc-e25a11107b0d.md). These contain overlapping history, not three independent tests.\n\n### Hard-task outcome
 
 - **Elapsed:** about **44m 17s** (5 November 2026, 11:16:48–12:01:05 GMT).
 - **Tools:** 37 recorded tool calls in the completed session; reported zero failures, and safe `close_binary` with empty `params_json: "{}"`.
@@ -103,6 +103,32 @@ Markdown code formatting has been flattened inside the plain-text block for read
 - **Not accomplished:** no native Linux matcher, no hardware tests, no validated full template/descriptor parity.
 
 See [the investigation report](bionic-rea-moh-investigation-2026-11-05.md) and [FocalTech algorithm research note](https://github.com/Inforce855/focaltech-5955-linux/blob/main/docs/moh-matching-engine-rea-2026-11-05.md).
+
+## Source transcript index
+
+All links below point to sanitised Markdown session exports stored in this repository, not to the proprietary binary. Session IDs are retained to make tool-call evidence auditable.
+
+| Bionic session | Recorded model | Category |
+| --- | --- | --- |
+| [11e38c6c](Bionic-11e38c6c-9cce-4cca-bd95-5409ccff31e0.md) | Qwen3.8-27B | Short test, Q8_0 per observed run configuration |
+| [04e45585](Bionic-04e45585-81e3-4ace-b530-4852657b57e9.md) | Qwen3.8-27B | Short test, Q4_K_M per observed run configuration |
+| [395a1bf7](Bionic-395a1bf7-0473-4007-8335-bcd7b7ad8775.md) | Qwen3-Coder-Next | Short test |
+| [dc2e932e](Bionic-dc2e932e-d1dd-4c5f-97d4-d6acbcb00494.md) | Qwen3-Coder-30B | Short test |
+| [a6bc553d](Bionic-a6bc553d-dffb-4789-98d4-d8207f8f30f2.md) | Gemma 4 E4B | Short test |
+| [ba2a6ea4](Bionic-ba2a6ea4-09d8-4bbc-a6cd-78bba56ef6ce.md) | Gemma 4 26B A4B QAT | Interrupted short test |
+| [f0e7ac0f](Bionic-f0e7ac0f-d068-462b-8bad-0aacc5d3c9ef.md) | Gemma 4 26B A4B QAT | Shell-approval reviewer sub-session |
+| [eb11e288](Bionic-eb11e288-d81b-46f0-af54-d53f7a4081b8.md) | Gemma 4 31B QAT | Short test, unsafe snapshot closure |
+| [c6107f41](Bionic-c6107f41-8d1c-4717-9196-78dec72c4cfd.md) | Flint | Interrupted short test |
+| [5fc2bfe6](Bionic-5fc2bfe6-581b-4a64-b06d-b607371d4b4a.md) | Qwen3.8-27B | Separate interrupted follow-up; not counted as an additional completed shootout run |
+| [9ee18d1b](Bionic-9ee18d1b-c35f-47d4-be33-0f05444719bf.md) | Qwen3.8-27B | Main long investigation with linked sub-sessions |
+| [9863fa4e](Bionic-9863fa4e-a4b8-4b26-9eb4-f4edfb2e4531.md) | Qwen3.8-27B | Long investigation compaction sub-session |
+| [c7bf538e](Bionic-c7bf538e-232b-4f78-b3bc-e25a11107b0d.md) | Qwen3.8-27B | Long investigation compaction sub-session |
+| [095a728c](Bionic-095a728c-9a26-4cd2-8cba-db7fba7e5a84.md) | Qwen3.8-27B | Empty record (zero committed entries) |
+| [229afeb2](Bionic-229afeb2-b63a-457b-9925-9dac275892f0.md) | Qwen3.8-27B | Empty record (zero committed entries) |
+| [b7f205a9](Bionic-b7f205a9-8c57-4e61-a81a-6c9901330b9d.md) | Qwen3.8-27B | Empty record (zero committed entries) |
+| [d33b79f1](Bionic-d33b79f1-51fe-4f28-a68b-d228aa051c20.md) | Qwen3.8-27B | Empty record (zero committed entries) |
+
+**Model provenance caution:** Qwen3.8 session metadata only identifies `qwen/qwen3.8-27b`; quantisation assignments in the short-test rows come from the experimenter's observed run selections, not the transcript's model ID. Empty and compaction records should not be counted as fresh experiments.
 
 ## Reproduction and safety notes
 
