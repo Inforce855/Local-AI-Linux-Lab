@@ -6,6 +6,9 @@
 
 ## 5 NOVEMBER 2026 — Bionic/REA long investigation and model comparison
 
+**BENCHMARK REPRODUCIBILITY (5 November):** [Full local LLM shootout and prompts](benchmarks/bionic-rea-llm-shootout-2026-11-05.md) records seven model families/eight configurations and the redacted example DLL path. The short benchmark prompt is reconstructed from documented requirements, not a verbatim recovered original; the deep-investigation prompt is recovered from the Bionic transcript. No source or system changes.
+
+
 **COMPLETED (observed):** A read-only ~44-minute Bionic/REA/Ghidra investigation of the FocalTech matching DLL identified candidate descriptor, RANSAC and verification procedures, retrieved call/pseudocode evidence, and executed a no-argument `close_binary` successfully. Two automatic Bionic context compactions were observed. Q8_0 and Q4_K_M activity overlapped; **the precise reason Q4 was selected is unknown**, so this is not a single-quantisation benchmark. A separate bounded test found Q8_0 disciplined, while Q4_K_M incorrectly decoded interface version 6.0 as 6.2. The earlier Gemma 31B QAT test overwrote the original DLL through a dangerous snapshot-path close; the owner restored and SHA-256-verified the original.
 
 **REMAINING:** Independently validate the proposed matching semantics; determine Bionic helper/compaction model selection from direct request logs before making claims; preserve the verified REA bridge, Krita bridge and current local configuration.
