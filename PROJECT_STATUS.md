@@ -1,8 +1,16 @@
 # Project status
 
-**Last updated:** 4 November 2026  
+**Last updated:** 5 November 2026  
 **Repository:** `Inforce855/Local-AI-Linux-Lab`  
 **Scope:** Public, reproducible notes for local AI tools on Linux.
+
+## 5 NOVEMBER 2026 — Bionic/REA long investigation and model comparison
+
+**COMPLETED (observed):** A read-only ~44-minute Bionic/REA/Ghidra investigation of the FocalTech matching DLL identified candidate descriptor, RANSAC and verification procedures, retrieved call/pseudocode evidence, and executed a no-argument `close_binary` successfully. Two automatic Bionic context compactions were observed. Q8_0 and Q4_K_M activity overlapped; **the precise reason Q4 was selected is unknown**, so this is not a single-quantisation benchmark. A separate bounded test found Q8_0 disciplined, while Q4_K_M incorrectly decoded interface version 6.0 as 6.2. The earlier Gemma 31B QAT test overwrote the original DLL through a dangerous snapshot-path close; the owner restored and SHA-256-verified the original.
+
+**REMAINING:** Independently validate the proposed matching semantics; determine Bionic helper/compaction model selection from direct request logs before making claims; preserve the verified REA bridge, Krita bridge and current local configuration.
+
+**NEXT ACTION:** Retain the results and safety requirements in [the 5 November Bionic/REA research record](benchmarks/bionic-rea-moh-investigation-2026-11-05.md). No software or security-configuration changes are required by this documentation result.
 
 ## COMPLETED
 
