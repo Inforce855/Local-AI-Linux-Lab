@@ -17,34 +17,11 @@
 
 **Target:** `WbioQueryEngineInterface` at `0x18012dce0`. REA/Ghidra reported **1,032 UTF-16 pseudocode code units** (not bytes or model tokens).
 
-### Original prompt — see the uploaded Bionic session transcripts
+### Original short-test prompt — verified from uploaded session logs
 
-The original seven-model prompt has now been recovered in the uploaded Bionic logs, notably [the Qwen3.8 session](Bionic-04e45585-81e3-4ace-b530-4852657b57e9.md). The following is a **reconstructed reproducibility prompt** from its documented requirements, **not a claimed exact historical transcript**. Do not use this reconstructed text as evidence that each candidate received precisely these words.
+The original, word-for-word prompt for the `WbioQueryEngineInterface` shootout is preserved in [Bionic session `04e45585-81e3-4ace-b530-4852657b57e9`](Bionic-04e45585-81e3-4ace-b530-4852657b57e9.md) and the other bounded-run logs uploaded on 5 November 2026. It begins with `Use REA with Ghidra to perform a read-only analysis of the Windows FocalTech fingerprint matching engine.` The only publication change to the uploaded transcript is the user-path substitution `/home/inforce/`.
 
-```text
-Use REA with Ghidra to perform a strictly read-only, standalone analysis
-of WbioQueryEngineInterface in the specified Windows DLL.
-
-Binary:
-  /home/inforce/datadump/Fingerprint module/MOH/FocalTechFPSSOdriver25H2x64V5.10.66.6611_WHQL/drivers/475b9ee7-95a2-4b4e-a83a-6c96db3969ad/ftWbioEngineAdapter.dll
-Function:
-  0x18012dce0
-Expected DLL SHA-256:
-  a4f037c260e8c86718675ddb6540467a9006ab26184858eb5b8726137185d57c
-
-Open exactly that DLL using REA/Ghidra. Use analyze_function with
-detail="summary", then obtain all 1,032 UTF-16 pseudocode code units
-using inspect_analysis_view on retained evidence.
-
-Identify the actual function inputs, output, return values and
-WINBIO engine interface version from the evidence. Distinguish
-confirmed values from inference and note failed tool calls.
-
-Close the binary using close_binary with NO ARGUMENTS.
-Do not write a snapshot, overwrite any files, run shell commands,
-search the filesystem, change source or inspect unrelated functions.
-Report concisely in at most 400 words.
-```
+**The previous reconstructed prompt has been withdrawn**, because it was not the one the models received. The real prompt specifies the DLL and `WbioQueryEngineInterface` at `0x18012dce0`, asks for an `analyze_function` summary and retained-evidence pseudocode, and requires a report within **400 words**. It does **not** contain an expected SHA-256, dictate the number of pseudocode code units, or require no-argument `close_binary` (it says only to close the binary). The distinction is important when scoring model compliance and understanding the unsafe snapshot overwrite.
 
 **Ground-truth check from prior decompilation:** the function rejects a null output pointer with `0x80004003` (`E_POINTER`); otherwise writes a pointer to the interface at `0x180225000` and returns `0`. The interface's version is **6.0**, encoded by two 16-bit values (major 6, minor 0). The subsequent 32-bit value `2` denotes adapter type, **not** version minor 2. Treat unsupported `6.2` readings as incorrect.
 
