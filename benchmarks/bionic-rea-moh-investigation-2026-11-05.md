@@ -12,7 +12,7 @@
 - **Observed:** Two Bionic context reductions (approximately 82K → 40.1K, and 71.6K → 23.4K in the UI); exported history includes Bionic `lmstudio/context-compaction-v1` state. Evidence IDs and function addresses survived sufficient to complete the task.
 - **Observed in LM Studio UI:** Q8_0 and Q4_K_M instances were loaded; Q4_K_M processed prompts while the run continued. **Not verified:** which precise inference/model request performed each step, why Bionic selected Q4, or whether it was exclusively a compactor. Indexed session identifier `qwen/qwen3.8-27b` does not distinguish quantisation. **Do not label this 44-minute run a pure Q8_0 benchmark.**
 
-## Agent behaviour and limitations
+**Long-run primary evidence:** [main session](Bionic-9ee18d1b-c35f-47d4-be33-0f05444719bf.md), [compaction session one](Bionic-9863fa4e-a4b8-4b26-9eb4-f4edfb2e4531.md), [compaction session two](Bionic-c7bf538e-232b-4f78-b3bc-e25a11107b0d.md). These logs overlap and are not independent completed runs.\n\n## Agent behaviour and limitations
 
 - The model found procedures through self-logging string searches and xrefs after direct name lookup was empty; it retrieved summary/callers/callees/pseudocode via REA retained evidence.
 - After initially calling `FUN_18003cab0` a dispatcher, the report revised this to a score-producing matching-core candidate. **Label semantics as inferred**, because stripped symbols and unresolved indirect calls prevent complete identification.
@@ -22,17 +22,17 @@
 
 ## Distinct short benchmark observations (same day)
 
-The preceding bounded tests on the `WbioQueryEngineInterface` function were **not** equivalent to the complex 44-minute run:
+The preceding bounded tests on the `WbioQueryEngineInterface` function were **not** equivalent to the complex 44-minute run. The model names below link directly to the corresponding uploaded session logs. For Gemma 4 26B A4B QAT, see the [interrupted session](Bionic-ba2a6ea4-09d8-4bbc-a6cd-78bba56ef6ce.md) and its [shell approval sub-session](Bionic-f0e7ac0f-d068-462b-8bad-0aacc5d3c9ef.md). The [complete 17-log index](bionic-rea-llm-shootout-2026-11-05.md#source-transcript-index) separates short tests from compactions and empty sessions:
 
 | Model/quantisation | Observed result | Caution |
 | --- | --- | --- |
-| Qwen3.8-27B Q8_0 | Correct interface analysis, no failed calls, safe closure; ~5m46s | Most reliable bounded test here |
-| Qwen3.8-27B Q4_K_M | Completed safely, ~6m19s | Incorrectly interpreted interface version as 6.2 (verified version is **6.0**) |
-| Qwen3-Coder-Next | Fast (~1m40s) but 5 invalid calls out of 12 | Unsafe snapshot-path attempt was rejected |
-| Qwen3-Coder-30B | Fast (~1m20s) but 5 failed calls out of 11 | Inaccurate claim of zero errors |
-| Gemma 4 E4B | Could not open target in this test | Misattributed tool-argument failures to REA |
-| Gemma 4 31B QAT | ~7m18s; matching analysis partly useful | **Destructively replaced the original DLL** by using `close_binary(snapshot_path=<original>, overwrite=true)`; owner restored verified original hash from backup |
-| RecursiveSI Flint | Explored extensively; failed to finish/close within test | Queried unrelated Krita MCP tools; possible poor fit to tightly constrained prompt, not established general incapacity |
+| [Qwen3.8-27B Q8_0](Bionic-11e38c6c-9cce-4cca-bd95-5409ccff31e0.md) | Correct interface analysis, no failed calls, safe closure; ~5m46s | Most reliable bounded test here |
+| [Qwen3.8-27B Q4_K_M](Bionic-04e45585-81e3-4ace-b530-4852657b57e9.md) | Completed safely, ~6m19s | Incorrectly interpreted interface version as 6.2 (verified version is **6.0**) |
+| [Qwen3-Coder-Next](Bionic-395a1bf7-0473-4007-8335-bcd7b7ad8775.md) | Fast (~1m40s) but 5 invalid calls out of 12 | Unsafe snapshot-path attempt was rejected |
+| [Qwen3-Coder-30B](Bionic-dc2e932e-d1dd-4c5f-97d4-d6acbcb00494.md) | Fast (~1m20s) but 5 failed calls out of 11 | Inaccurate claim of zero errors |
+| [Gemma 4 E4B](Bionic-a6bc553d-dffb-4789-98d4-d8207f8f30f2.md) | Could not open target in this test | Misattributed tool-argument failures to REA |
+| [Gemma 4 31B QAT](Bionic-eb11e288-d81b-46f0-af54-d53f7a4081b8.md) | ~7m18s; matching analysis partly useful | **Destructively replaced the original DLL** by using `close_binary(snapshot_path=<original>, overwrite=true)`; owner restored verified original hash from backup |
+| [RecursiveSI Flint](Bionic-c6107f41-8d1c-4717-9196-78dec72c4cfd.md) | Explored extensively; failed to finish/close within test | Queried unrelated Krita MCP tools; possible poor fit to tightly constrained prompt, not established general incapacity |
 
 These are individual local sessions under differing conditions, not statistically controlled rankings. Keep tool errors, content correctness, closure safety and quantisation separate.
 
