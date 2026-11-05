@@ -104,9 +104,21 @@ Markdown code formatting has been flattened inside the plain-text block for read
 
 See [the investigation report](bionic-rea-moh-investigation-2026-11-05.md) and [FocalTech algorithm research note](https://github.com/Inforce855/focaltech-5955-linux/blob/main/docs/moh-matching-engine-rea-2026-11-05.md).
 
+## 3. Qwen3.8 repeat without Q4_K_M — 5 November 2026
+
+After Q4_K_M was removed locally, the original 600-word matching-engine investigation was rerun with the Qwen3.8 model selected. **Observed elapsed time:** approximately **37m 38s**, versus 44m 17s in the earlier mixed-instance run. **Two Bionic context handoffs** occurred; the experiment completed and the transcript records a safe no-argument `close_binary` call.
+
+**Primary evidence:** [initial session](Bionic-5a764918-3cc9-42b0-9417-964f385e263c.md), [first compaction](Bionic-bfe2b2b0-f51d-48ac-89e1-a52c3e9de003.md), and [second compaction](Bionic-ac4445bc-d64c-4c3a-9fcd-bcdd3f0c3a7b.md). Each is a session/compaction export from **one** investigation, not three independent trials. These transcripts have been sanitised for public paths.
+
+**What this establishes:** Bionic successfully continued the investigation after handoffs without Q4_K_M installed; a separate Q4 continuation was therefore not required in this particular run. The saved indexed model identifier (`qwen/qwen3.8-27b`) does **not** itself identify the quantisation of each inference request, so exclusive Q8 routing has not been independently verified.
+
+**Algorithmic observations:** The final transcript reports orientation-histogram descriptors, RANSAC point alignment, Hamming-distance matching, overlap/rejection checks and a shared caller for the RANSAC and verification candidates. These remain **decompiler-derived interpretations** pending independent validation. The handoffs propagated a mistaken claim that all six descriptor-string xrefs were contained in `FUN_1800c7510`; some xrefs lie outside its declared range. The `5.729578` angular factor represents tenths, **not hundredths**, of a degree. The final narrative also appears to exceed the requested 600-word ceiling.
+
+**Comparison limitation:** Different analysis and evidence-retrieval paths, inference settings and model routing mean the elapsed-time difference is not proof that Q8-only processing is faster. No driver or DLL modification was performed.
+
 ## Source transcript index
 
-All links below point to sanitised Markdown session exports stored in this repository, not to the proprietary binary. Session IDs are retained to make tool-call evidence auditable.
+All 20 uploaded logs are indexed below. All links below point to sanitised Markdown session exports stored in this repository, not to the proprietary binary. Session IDs are retained to make tool-call evidence auditable.
 
 | Bionic session | Recorded model | Category |
 | --- | --- | --- |
@@ -127,6 +139,9 @@ All links below point to sanitised Markdown session exports stored in this repos
 | [229afeb2](Bionic-229afeb2-b63a-457b-9925-9dac275892f0.md) | Qwen3.8-27B | Empty record (zero committed entries) |
 | [b7f205a9](Bionic-b7f205a9-8c57-4e61-a81a-6c9901330b9d.md) | Qwen3.8-27B | Empty record (zero committed entries) |
 | [d33b79f1](Bionic-d33b79f1-51fe-4f28-a68b-d228aa051c20.md) | Qwen3.8-27B | Empty record (zero committed entries) |
+| [5a764918](Bionic-5a764918-3cc9-42b0-9417-964f385e263c.md) | Qwen3.8-27B | New 37m 38s investigation, original session |
+| [bfe2b2b0](Bionic-bfe2b2b0-f51d-48ac-89e1-a52c3e9de003.md) | Qwen3.8-27B | New investigation, first context compaction |
+| [ac4445bc](Bionic-ac4445bc-d64c-4c3a-9fcd-bcdd3f0c3a7b.md) | Qwen3.8-27B | New investigation, second context compaction |
 
 **Model provenance caution:** Qwen3.8 session metadata only identifies `qwen/qwen3.8-27b`; quantisation assignments in the short-test rows come from the experimenter's observed run selections, not the transcript's model ID. Empty and compaction records should not be counted as fresh experiments.
 
